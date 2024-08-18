@@ -51,18 +51,9 @@ def eval_model(args):
     # Model
     disable_torch_init()
 
-    # model_name = "llava-med-v1.5-mistral-7b"
-    model_name = get_model_name_from_path(args.model_base)
-    tokenizer, model, _, context_len = load_pretrained_model(
-        args.model_path_1, args.model_base, model_name
-    )
-
-    _, _, image_processor, _ = load_pretrained_model(
-        args.model_path_2,
-        # model_base=model_base,
-        model_base=None,
-        # model_name=get_model_name_from_path(model_name),
-        model_name=get_model_name_from_path(args.model_path_2)
+    model_name = get_model_name_from_path(args.model_path)
+    tokenizer, model, image_processor, context_len = load_pretrained_model(
+        args.model_path, args.model_base, model_name
     )
 
     qs = args.query
@@ -139,10 +130,8 @@ def eval_model(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model-path-1", type=str, default="facebook/opt-350m")
-    parser.add_argument("--model-path-2", type=str, default="facebook/opt-350m")
+    parser.add_argument("--model-path", type=str, default="facebook/opt-350m")
     parser.add_argument("--model-base", type=str, default=None)
-    parser.add_argument("--model-name", type=str, default=None)
     parser.add_argument("--image-file", type=str, required=True)
     parser.add_argument("--query", type=str, required=True)
     parser.add_argument("--conv-mode", type=str, default=None)
